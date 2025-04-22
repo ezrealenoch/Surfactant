@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SBOM Visualizer</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <!-- D3.js for visualization -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+    <!-- FileSaver.js for export functionality -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+</head>
+<body>
+    <header>
+        <h1>SBOM Visualizer</h1>
+        <div class="header-controls">
+            <button id="import-button" class="primary-button">Import SBOM</button>
+            <input type="file" id="file-input" accept=".json" multiple style="display: none;">
+            <div class="search-container">
+                <input type="text" id="search-input" placeholder="Search components...">
+                <button id="search-button">Search</button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="sidebar">
+            <div class="uploaded-sboms">
+                <h2>Uploaded SBOMs</h2>
+                <div id="sbom-list">
+                    <!-- SBOM list will be dynamically populated -->
+                    <div class="no-sboms-message">No SBOMs uploaded yet</div>
+                </div>
+            </div>
+            <div class="filters">
+                <h2>Filters</h2>
+                <div class="filter-section">
+                    <h3>Component Type</h3>
+                    <div class="filter-options">
+                        <label><input type="checkbox" class="filter-option" value="software" checked> Software</label>
+                        <label><input type="checkbox" class="filter-option" value="hardware" checked> Hardware</label>
+                        <label><input type="checkbox" class="filter-option" value="systems" checked> Systems</label>
+                    </div>
+                </div>
+                <div class="filter-section">
+                    <h3>View Options</h3>
+                    <div class="filter-options">
+                        <label><input type="radio" name="view-type" value="graph" checked> Graph View</label>
+                        <label><input type="radio" name="view-type" value="matrix"> Matrix View</label>
+                    </div>
+                </div>
+                
+                <div class="filter-section">
+                    <h3>Visualization Controls</h3>
+                    <div class="filter-options">
+                        <label><input type="checkbox" id="enable-clustering"> Enable Clustering</label>
+                        <label><input type="checkbox" id="enable-density-reduction"> Density Reduction</label>
+                        <label><input type="checkbox" id="use-radial-layout"> Radial Layout</label>
+                    </div>
+                </div>
+                
+                <div class="filter-section">
+                    <h3>Large Dataset Options</h3>
+                    <div class="cluster-slider">
+                        <label for="cluster-threshold">Clustering Threshold:</label>
+                        <input type="range" id="cluster-threshold" min="10" max="200" value="30">
+                        <span id="cluster-threshold-value">30 nodes</span>
+                    </div>
+                    <div class="cluster-slider">
+                        <label for="max-node-limit">Maximum Nodes:</label>
+                        <input type="range" id="max-node-limit" min="100" max="1000" value="500" step="50">
+                        <span id="max-node-limit-value">500 nodes</span>
+                    </div>
+                </div>
+            </div>
+            <div class="export-section">
+                <h2>Export</h2>
+                <button id="export-png" class="export-button">Export as PNG</button>
+                <button id="export-svg" class="export-button">Export as SVG</button>
+                <button id="export-json" class="export-button">Export Data (JSON)</button>
+                <button id="export-csv" class="export-button">Export Data (CSV)</button>
+                <button id="generate-report" class="export-button">Generate Report</button>
+            </div>
+        </div>
+
+        <div class="main-panel">
+            <div class="visualization-container">
+                <div id="graph-view" class="active-view">
+                    <!-- D3 Graph will be rendered here -->
+                </div>
+                <div id="matrix-view" class="hidden-view">
+                    <!-- Matrix View will be rendered here -->
+                </div>
+            </div>
+            <div id="detail-panel" class="detail-panel">
+                <h2>Component Details</h2>
+                <div id="detail-content">
+                    <p>Select a component to view details</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div id="drop-area" class="hidden">
+        <div class="drop-message">
+            <h2>Drop SBOM Files Here</h2>
+            <p>Or click to browse files</p>
+        </div>
+    </div>
+
+    <!-- Legend -->
+    <div class="legend">
+        <h3>Color Legend</h3>
+        <div id="legend-content">
+            <!-- Will be dynamically populated -->
+        </div>
+    </div>
+
+    <!-- Core Scripts -->
+    <script src="js/core/config.js"></script>
+    <script src="js/core/state.js"></script>
+    
+    <!-- Utility Scripts -->
+    <script src="js/utils/debug.js"></script>
+    <script src="js/utils/formatter.js"></script>
+    <script src="js/utils/fileHandler.js"></script>
+    
+    <!-- Data Handling Scripts -->
+    <script src="js/data/model.js"></script>
+    <script src="js/data/normalizer.js"></script>
+    <script src="js/data/store.js"></script>
+    <script src="js/data/parser.js"></script>
+    
+    <!-- Visualization Scripts -->
+    <script src="js/viz/base.js"></script>
+    <script src="js/viz/styles.js"></script>
+    <script src="js/viz/force.js"></script>
+    <script src="js/viz/clusters.js"></script>
+    <script src="js/viz/graph.js"></script>
+    <script src="js/viz/matrix.js"></script>
+    
+    <!-- UI Scripts -->
+    <script src="js/ui/sidebar.js"></script>
+    <script src="js/ui/details.js"></script>
+    <script src="js/ui/controls.js"></script>
+    
+    <!-- Export Scripts -->
+    <script src="js/export/exportManager.js"></script>
+    
+    <!-- Main Application Entry Point -->
+    <script src="js/core/app.js"></script>
+</body>
+</html>
